@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSDM / CMDB Quiz</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="brand">CSDM &amp; CMDB Quiz</div>
+    <div class="score-summary" id="scoreSummary">Answered: 0 / 71 &nbsp;|&nbsp; Submitted: 0 / 71</div>
+    <button class="btn btn-ghost" id="jumpToggle">☰ Questions</button>
+  </header>
+
+  <div class="layout">
+
+    <!-- Sidebar: jump to question grid -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">Jump to question</div>
+      <div class="legend">
+        <span><i class="dot dot-unanswered"></i>Unanswered</span>
+        <span><i class="dot dot-answered"></i>Answered</span>
+        <span><i class="dot dot-correct"></i>Correct</span>
+        <span><i class="dot dot-incorrect"></i>Incorrect</span>
+      </div>
+      <div class="q-grid" id="qGrid"></div>
+    </aside>
+
+    <!-- Main quiz panel -->
+    <main class="content">
+
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+
+      <section class="question-card" id="questionCard">
+        <!-- injected by JS -->
+      </section>
+
+      <div class="nav-buttons">
+        <button class="btn btn-secondary" id="prevBtn">&larr; Previous</button>
+        <div class="nav-center">
+          <button class="btn btn-primary" id="submitBtn">Submit Answer</button>
+          <button class="btn btn-ghost" id="clearBtn">Clear</button>
+        </div>
+        <button class="btn btn-secondary" id="nextBtn">Next &rarr;</button>
+      </div>
+
+      <div class="finish-row">
+        <button class="btn btn-finish" id="finishBtn">Finish Quiz &amp; See Results</button>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- Results modal -->
+<div class="modal-overlay" id="resultsOverlay">
+  <div class="modal">
+    <h2>Quiz Results</h2>
+    <div id="resultsBody"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="reviewBtn">Review Answers</button>
+      <button class="btn btn-primary" id="restartBtn">Restart Quiz</button>
+    </div>
+  </div>
+</div>
+
+<script src="quiz-data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
