@@ -410,7 +410,7 @@ const QUIZ_DATA = [
       "Class Upgrade",
       "Class Downgrade",
     ],
-    correct: 0,
+    correct: 2,
   },
   {
     id: 31,
@@ -1066,7 +1066,7 @@ const QUIZ_DATA = [
     question:
       "When integrating data into the CMDB using import sets and transform maps, which type of script is added to ensure the data is processed through the IRE?",
     options: ["onComplete", "onBefore", "onStart", "onAfter"],
-    correct: 3,
+    correct: 1,
   },
   {
     id: 82,
