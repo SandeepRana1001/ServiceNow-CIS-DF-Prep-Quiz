@@ -454,7 +454,7 @@ const QUIZ_DATA = [
       "Set the coalesce on two mappings within the transform map",
       "Create comparison rules in the IRE",
     ],
-    correct: 2,
+    correct: 1,
   },
   {
     id: 37,
@@ -550,7 +550,7 @@ const QUIZ_DATA = [
     question:
       "A Configuration Manager working in the CMDB Workspace wants to see how CIs are connected to each other. Which tool can be used?",
     options: ["Business Service Map", "Relationship Map", "Unified Map"],
-    correct: 1,
+    correct: 2,
   },
   {
     id: 43,
@@ -672,7 +672,7 @@ const QUIZ_DATA = [
       "Use a CMDB Query to include application services and their related infrastructure",
       "Add a non CMDB table to the query",
     ],
-    correct: [0, 2],
+    correct: [2, 3],
   },
   {
     id: 53,
@@ -829,7 +829,7 @@ const QUIZ_DATA = [
       "Data Quality Business Rule",
       "CMDB Audit Business Rule",
     ],
-    correct: 0,
+    correct: 1,
   },
   {
     id: 64,
@@ -892,11 +892,11 @@ const QUIZ_DATA = [
     pairs: [
       {
         left: "Service Owner(s), Platform Owner",
-        right: "Foundation Domain",
+        right: "Portfolio Domain",
       },
       {
         left: "Technology Service Owner(s), Application Service Owner(s),Platform Owner",
-        right: "Portfolio Domain",
+        right: "Technical Domain",
       },
       {
         left: "Enterprise Architect(s), Platform Owner",
@@ -904,7 +904,7 @@ const QUIZ_DATA = [
       },
       {
         left: "Enterprise Architect(s), Data Steward(s), Process Owner(s),Platform Owner",
-        right: "Technical Domain",
+        right: "Foundation Domain",
       },
     ],
   },

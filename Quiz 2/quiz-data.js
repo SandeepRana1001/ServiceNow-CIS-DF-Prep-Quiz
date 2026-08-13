@@ -178,7 +178,7 @@ const QUIZ_DATA = [
     question:
       "A CMDB Administrator wants to leverage the Staleness metric from the CMDB Health Dashboard - Correctness Scorecard. What is the default duration of this metric?",
     options: ["24 hours", "30 days", "7 days", "60 days"],
-    correct: 1,
+    correct: 3,
   },
   {
     id: 16,
@@ -866,7 +866,7 @@ const QUIZ_DATA = [
       "First discovered (first_discovered)",
       "Most recent discovery (last_discovery)",
     ],
-    correct: 4,
+    correct: 2,
   },
   {
     id: 65,
@@ -1221,7 +1221,7 @@ const QUIZ_DATA = [
       "Data collected with a discovery source of SCCM can be inserted as new records in the Windows Server [cmdb_ci_win_server] table",
       "Data collected with a discovery source of SCCM can update any record in the Windows Server [cmdb_ci_win_server] table because it has the highest priority number",
     ],
-    correct: [0, 2],
+    correct: [1, 2],
   },
   {
     id: 93,
@@ -1713,7 +1713,7 @@ const QUIZ_DATA = [
       "A new Apache Web Server CI is created",
       "The existing Apache Web Server CI will be reconciled and its version will be updated",
     ],
-    correct: 3,
+    correct: 2,
   },
   {
     id: 133,

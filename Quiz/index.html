@@ -13,7 +13,7 @@
   <!-- Top bar -->
   <header class="topbar">
     <div class="brand">CSDM &amp; CMDB Quiz</div>
-    <div class="score-summary" id="scoreSummary">Answered: 0 / 71 &nbsp;|&nbsp; Submitted: 0 / 71</div>
+    <div class="score-summary" id="scoreSummary">Answered: 0 / 70 &nbsp;|&nbsp; Submitted: 0 / 70</div>
     <button class="btn btn-ghost" id="jumpToggle">☰ Questions</button>
   </header>
 
@@ -65,12 +65,14 @@
     <h2>Quiz Results</h2>
     <div id="resultsBody"></div>
     <div class="modal-actions">
+      <button class="btn btn-secondary" id="exportBtn">📊 Export to Excel</button>
       <button class="btn btn-secondary" id="reviewBtn">Review Answers</button>
       <button class="btn btn-primary" id="restartBtn">Restart Quiz</button>
     </div>
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="quiz-data.js"></script>
 <script src="script.js"></script>
 </body>
