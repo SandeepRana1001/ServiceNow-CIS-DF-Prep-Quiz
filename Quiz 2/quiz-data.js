@@ -38,7 +38,7 @@ const QUIZ_DATA = [
       "Remediate duplicate CI records",
       "Create a new CMDB class",
     ],
-    correct: [0, 2],
+    correct: [1, 2],
   },
   {
     id: 4,
@@ -469,7 +469,7 @@ const QUIZ_DATA = [
     pairs: [
       {
         left: "Can be assigned to groups for resolving duplicate CIs",
-        right: "Certification Tasks",
+        right: "De-Duplication Tasks",
       },
       {
         left: "Offers insight into duplicate CIs within the CMDB",
@@ -481,7 +481,7 @@ const QUIZ_DATA = [
       },
       {
         left: "Provides a wizard to resolve de-duplication tasks individually",
-        right: "De-Duplication Tasks",
+        right: "Duplicate CI Remediator",
       },
     ],
   },
@@ -728,7 +728,7 @@ const QUIZ_DATA = [
       "Scripted queries",
       "Saved queries",
     ],
-    correct: [0, 1],
+    correct: [1, 3],
   },
   {
     id: 55,
@@ -814,11 +814,11 @@ const QUIZ_DATA = [
       },
       {
         left: "Best fit to map cloud-native, container-based, or virtual machine environments",
-        right: "Service Mapping (Connection Suggestion)",
+        right: "Tag-Based",
       },
       {
         left: "Ideal for custom-built applications and leverages fingerprinting to generate service maps in a timely manner",
-        right: "Tag-Based",
+        right: "Service Mapping (Connection Suggestion)",
       },
       {
         left: "Ideal for small application services that can be easily mapped using filters and CMDB queries",
@@ -878,7 +878,7 @@ const QUIZ_DATA = [
       "Application Owner, Application Service Owner",
       "Customer Service Manager, Infrastructure Manager",
     ],
-    correct: 0,
+    correct: 1,
   },
   {
     id: 66,
@@ -902,7 +902,7 @@ const QUIZ_DATA = [
       "Application > Runs on::Runs > Server",
       "Application > Used by::Uses > Server",
     ],
-    correct: 1,
+    correct: 2,
   },
   {
     id: 68,
@@ -935,7 +935,7 @@ const QUIZ_DATA = [
     question:
       "A Service Portfolio Manager wants to know what Application Services their Business Service Offerings depend on. What stage of CSDM would map this relationship?",
     options: ["Fly", "Crawl", "Foundation", "Run", "Walk"],
-    correct: 4,
+    correct: 3,
   },
   {
     id: 71,
@@ -1093,7 +1093,7 @@ const QUIZ_DATA = [
       "The Event Operations team wants to automate their events into incident for operational actions",
       "The Customer Service team wants to onboard pro-active case management",
     ],
-    correct: 1,
+    correct: 0,
   },
   {
     id: 84,
@@ -1114,7 +1114,7 @@ const QUIZ_DATA = [
       "CMDB Health Dashboard Playbooks",
       "CSDM Data Foundations Dashboard Playbooks",
     ],
-    correct: 2,
+    correct: 1,
   },
   {
     id: 86,
@@ -1208,7 +1208,7 @@ const QUIZ_DATA = [
       "Automates the archival and deletion of records based on retention policies",
       "Encrypts archived records for enhanced security",
     ],
-    correct: 0,
+    correct: 1,
   },
   {
     id: 92,
@@ -1253,10 +1253,10 @@ const QUIZ_DATA = [
         left: "Use these to compare actual values with expected values",
         right: "Audits",
       },
-      { left: "Use of these should be minimized", right: "Orphan CIs" },
+      { left: "Use of these should be minimized", right: "Required fields" },
       {
         left: "Certain attribute values are not set, or relationships are missing",
-        right: "Required fields",
+        right: "Orphan CIs",
       },
       {
         left: "Preferable for them to be populated, as they could be useful in troubleshooting issues",
@@ -1322,7 +1322,7 @@ const QUIZ_DATA = [
       "The existing Apache Web Server CI will be reconciled and its version will be updated",
       "A duplication error will occur",
     ],
-    correct: 2,
+    correct: 0,
   },
   {
     id: 100,
@@ -1419,16 +1419,33 @@ const QUIZ_DATA = [
   },
   {
     id: 108,
-    type: "single",
+    type: "match",
     question:
-      "A new ServiceNow customer is assembling a Configuration Management team to support their CMDB. Which correctly matches each role to its corresponding job description (CI Analyst, CMDB Process Owner, Configuration Manager/CMDB Admin, Service or Product Owner)?",
+      "A new ServiceNow customer is assembling a Configuration Management team to support their CMDB. Match each role to its corresponding job description.",
     options: [
-      "CI Analyst = has read-only access to CMDB data and to basic user interface such as CMDB reports and dashboards; Service or Product Owner = accountable for managing all elements that make up a portfolio throughout their entire lifecycle; Configuration Manager/CMDB Admin = manages assigned CI tables and keeps records updated and resolves tasks related to CMDB records; CMDB Process Owner = obtains highest level role for CMDB privileges",
-      "CMDB Process Owner = read-only access; CI Analyst = accountable for portfolio; Service or Product Owner = manages CI tables; Configuration Manager/CMDB Admin = highest level privileges",
-      "Configuration Manager/CMDB Admin = read-only access; Service or Product Owner = manages CI tables; CI Analyst = highest privileges; CMDB Process Owner = accountable for portfolio",
-      "Service or Product Owner = read-only access; CMDB Process Owner = manages CI tables; Configuration Manager/CMDB Admin = accountable for portfolio; CI Analyst = highest privileges",
+      "CI Analyst",
+      "CMDB Process Owner",
+      "Configuration Manager/CMDB Admin",
+      "Service or Product Owner",
     ],
-    correct: 0,
+    pairs: [
+      {
+        left: "Has read-only access to CMDB data and to basic user interface such as CMDB reports and dashboards",
+        right: "CI Analyst",
+      },
+      {
+        left: "Accountable for managing all elements that make up a portfolio throughout their entire lifecycle",
+        right: "Service or Product Owner",
+      },
+      {
+        left: "Manages assigned CI tables and keeps records updated and resolves tasks related to CMDB records",
+        right: "Configuration Manager/CMDB Admin",
+      },
+      {
+        left: "Obtains highest level role for CMDB privileges",
+        right: "CMDB Process Owner",
+      },
+    ],
   },
   {
     id: 109,
@@ -1609,7 +1626,7 @@ const QUIZ_DATA = [
       "Last Updated",
       "Smallest Value",
     ],
-    correct: [0, 2],
+    correct: [0, 3],
   },
   {
     id: 125,
@@ -1739,7 +1756,7 @@ const QUIZ_DATA = [
       "Certification Policies, Data Filters, Scheduled Jobs",
       "Stale, Orphan, Duplicate",
     ],
-    correct: 2,
+    correct: 1,
   },
   {
     id: 135,

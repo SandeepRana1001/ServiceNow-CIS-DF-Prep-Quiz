@@ -122,7 +122,7 @@ const QUIZ_DATA = [
       "Checks that important data is valid and properly configured",
       "Uses automation to remediate potential risks",
     ],
-    correct: [2, 3],
+    correct: [0, 3],
   },
   {
     id: 11,
@@ -265,7 +265,7 @@ const QUIZ_DATA = [
     question:
       "A Configuration Management team wants to confirm that all servers in the CMDB are correctly associated with their location. Which CMDB Data Manager policy type does the team create?",
     options: ["Attestation", "Retire", "Certification", "Delete", "Archive"],
-    correct: 2,
+    correct: 0,
   },
   {
     id: 21,
@@ -816,7 +816,7 @@ const QUIZ_DATA = [
       "Application > Runs on/Runs > Server",
       "Application > Used by/Uses > Server",
     ],
-    correct: 1,
+    correct: 2,
   },
   {
     id: 63,
@@ -837,7 +837,7 @@ const QUIZ_DATA = [
     question:
       "The ITSM Manager wants to use Technology Management Offerings (Technical Service Offerings) to populate the support group of associated CIs. What CSDM stage would this be completed in?",
     options: ["Crawl", "Fly", "Foundation", "Walk", "Run"],
-    correct: 4,
+    correct: 3,
   },
   {
     id: 65,
