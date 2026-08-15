@@ -72,6 +72,8 @@
 
   // --- Filtering: All / CMDB / CSDM ---
   let ACTIVE_FILTER = "all";
+  // --- Filtering: specific question numbers (e.g. "3,7,12-15") ---
+  let ID_FILTER = null; // null = no restriction, else Set of question ids
   let ACTIVE_DATA = getBaseData();
   let TOTAL = ACTIVE_DATA.length;
 
@@ -154,6 +156,14 @@
         <input type="checkbox" id="shuffleToggle" ${SHUFFLE_ENABLED ? "checked" : ""}>
         <span>Shuffle questions &amp; answers</span>
       </label>
+      <div class="id-filter-row">
+        <div class="filter-bar-label" style="margin-top:10px;">Show only Q#s</div>
+        <div class="id-filter-controls">
+          <input type="text" id="idFilterInput" class="id-filter-input" placeholder="e.g. 3,7,12-15" />
+          <button type="button" class="btn-ghost id-filter-apply" id="idFilterApply">Apply</button>
+        </div>
+        <div class="id-filter-status" id="idFilterStatus"></div>
+      </div>
     `;
     sidebar.insertBefore(bar, qGrid);
     bar.querySelectorAll(".filter-btn").forEach((btn) => {
@@ -162,8 +172,85 @@
     bar
       .querySelector("#shuffleToggle")
       .addEventListener("change", onShuffleToggleChange);
+    const idInput = bar.querySelector("#idFilterInput");
+    idInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") applyIdFilterFromInput();
+    });
     injectFilterStyles();
     updateFilterBarUI();
+  }
+
+  // Parses a comma-separated list of question numbers and/or ranges,
+  // e.g. "3, 7, 12-15" -> Set{3,7,12,13,14,15}
+  function parseIdFilterString(str) {
+    const ids = new Set();
+    str
+      .split(",")
+      .map((part) => part.trim())
+      .filter(Boolean)
+      .forEach((part) => {
+        const rangeMatch = part.match(/^(\d+)\s*-\s*(\d+)$/);
+        if (rangeMatch) {
+          let start = parseInt(rangeMatch[1], 10);
+          let end = parseInt(rangeMatch[2], 10);
+          if (start > end) [start, end] = [end, start];
+          for (let n = start; n <= end; n++) ids.add(n);
+        } else if (/^\d+$/.test(part)) {
+          ids.add(parseInt(part, 10));
+        }
+      });
+    return ids;
+  }
+
+  function applyIdFilterFromInput() {
+    const input = document.getElementById("idFilterInput");
+    const status = document.getElementById("idFilterStatus");
+    const raw = input.value.trim();
+
+    if (!raw) {
+      ID_FILTER = null;
+      status.textContent = "";
+      status.className = "id-filter-status";
+      applyActiveData();
+      return;
+    }
+
+    const parsed = parseIdFilterString(raw);
+    if (parsed.size === 0) {
+      status.textContent = "Enter valid question numbers, e.g. 3,7,12-15";
+      status.className = "id-filter-status warn";
+      return;
+    }
+
+    const validIds = new Set(SHUFFLED_QUIZ_DATA.map((q) => q.id));
+    const matched = [...parsed].filter((id) => validIds.has(id));
+    const unmatched = [...parsed].filter((id) => !validIds.has(id));
+
+    if (matched.length === 0) {
+      status.textContent = `No questions found for: ${unmatched.join(", ")}`;
+      status.className = "id-filter-status warn";
+      return;
+    }
+
+    ID_FILTER = new Set(matched);
+    status.textContent =
+      unmatched.length > 0
+        ? `Showing ${matched.length} question(s). Not found: ${unmatched.join(", ")}`
+        : `Showing ${matched.length} question(s).`;
+    status.className = "id-filter-status ok";
+    applyActiveData();
+  }
+
+  function clearIdFilter() {
+    ID_FILTER = null;
+    const input = document.getElementById("idFilterInput");
+    const status = document.getElementById("idFilterStatus");
+    if (input) input.value = "";
+    if (status) {
+      status.textContent = "";
+      status.className = "id-filter-status";
+    }
+    applyActiveData();
   }
 
   function updateFilterBarUI() {
@@ -172,14 +259,24 @@
     });
     const toggle = document.getElementById("shuffleToggle");
     if (toggle) toggle.checked = SHUFFLE_ENABLED;
+
+    const applyBtn = document.getElementById("idFilterApply");
+    if (applyBtn) {
+      applyBtn.textContent = ID_FILTER ? "Clear" : "Apply";
+      applyBtn.onclick = ID_FILTER ? clearIdFilter : applyIdFilterFromInput;
+    }
   }
 
   function applyActiveData() {
     const base = getBaseData();
-    ACTIVE_DATA =
+    let filtered =
       ACTIVE_FILTER === "all"
         ? base
         : base.filter((q) => q.topic === ACTIVE_FILTER.toUpperCase());
+    if (ID_FILTER) {
+      filtered = filtered.filter((q) => ID_FILTER.has(q.id));
+    }
+    ACTIVE_DATA = filtered;
     TOTAL = ACTIVE_DATA.length;
     currentIndex = 0;
     updateFilterBarUI();
@@ -226,6 +323,15 @@
       .shuffle-toggle-row { display: flex; align-items: center; gap: 6px; margin-top: 10px; font-size: 12.5px;
         cursor: pointer; user-select: none; opacity: 0.9; }
       .shuffle-toggle-row input[type="checkbox"] { width: 14px; height: 14px; cursor: pointer; accent-color: #3b82f6; }
+      .id-filter-row { margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); }
+      .id-filter-controls { display: flex; gap: 6px; margin-top: 4px; }
+      .id-filter-input { flex: 1 1 auto; min-width: 0; padding: 6px 8px; font-size: 12.5px; border-radius: 6px;
+        border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.04); color: inherit; }
+      .id-filter-input::placeholder { color: rgba(255,255,255,0.35); }
+      .id-filter-apply { flex: 0 0 auto; padding: 6px 12px; font-size: 12.5px; border-radius: 6px; }
+      .id-filter-status { font-size: 11.5px; margin-top: 6px; opacity: 0.85; line-height: 1.4; }
+      .id-filter-status.ok { color: #35c98f; }
+      .id-filter-status.warn { color: #ffb545; }
     `;
     document.head.appendChild(style);
   }
@@ -234,7 +340,7 @@
     qGrid.innerHTML = "";
     ACTIVE_DATA.forEach((q, idx) => {
       const btn = document.createElement("button");
-      btn.textContent = idx + 1;
+      btn.textContent = q.id;
       btn.addEventListener("click", () => {
         currentIndex = idx;
         render();
@@ -294,11 +400,24 @@
   }
 
   function render() {
+    if (TOTAL === 0) {
+      questionCard.classList.remove("locked");
+      questionCard.innerHTML = `<div class="q-text" style="text-align:center; opacity:0.7;">
+        No questions match the current filter.<br>Try different question numbers or clear the filter.
+      </div>`;
+      prevBtn.disabled = true;
+      nextBtn.disabled = true;
+      submitBtn.disabled = true;
+      clearBtn.disabled = true;
+      scoreSummary.textContent = `Answered: 0 / 0  |  Submitted: 0 / 0`;
+      progressBar.style.width = `0%`;
+      return;
+    }
     const q = ACTIVE_DATA[currentIndex];
     const st = state[q.id];
     questionCard.classList.toggle("locked", st.submitted);
 
-    let html = `<div class="q-meta">Question ${currentIndex + 1} of ${TOTAL}
+    let html = `<div class="q-meta">Question ${q.id} <span style="opacity:0.6">(${currentIndex + 1} of ${TOTAL} in this quiz)</span>
       <span class="q-type-badge">${typeLabel(q.type)}</span></div>
       <div class="q-text">${q.question}</div>`;
 
@@ -637,13 +756,13 @@
   }
 
   function buildExportRows() {
-    return ACTIVE_DATA.map((q, idx) => {
+    return ACTIVE_DATA.map((q) => {
       const st = state[q.id];
       let status;
       if (!st.submitted) status = "Skipped";
       else status = st.correctFlag ? "Correct" : "Incorrect";
       return {
-        "#": idx + 1,
+        "Q#": q.id,
         Type: typeLabel(q.type),
         Question: q.question,
         "Your Answer": st.submitted ? userAnswerText(q, st) : "(skipped)",
@@ -668,9 +787,9 @@
     const wb = XLSX.utils.book_new();
 
     const addSheet = (name, data) => {
-      const ws = XLSX.utils.json_to_sheet(data.length ? data : [{ "#": "" }]);
+      const ws = XLSX.utils.json_to_sheet(data.length ? data : [{ "Q#": "" }]);
       ws["!cols"] = [
-        { wch: 5 },
+        { wch: 6 },
         { wch: 16 },
         { wch: 60 },
         { wch: 40 },
